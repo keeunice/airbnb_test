@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品與飲品選擇器</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-top: 12px;
+            background-color: transparent;
+            border: 1px solid #000;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        .button:active {
+            transform: scale(1);
+            background-color: lightblue;
+        }
+
+
+        /* 背景暗化效果 */
+        body {
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-background {
+            background-color: rgba(0, 0, 0, 0.6); /* 讓背景暗化，降低亮度 */
+        }
+
+
+        /* 確保所有卡片都受到背景暗化的影響 */
+        #product-list {
+            transition: opacity 0.3s ease;
+        }
+
+
+        #product-list.dark-background {
+            opacity: 0.4; /* 卡片暗化，透明度降低 */
+        }
+
+        /* Dialog 的樣式保持不變 */
+        .dialog {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            width: 300px;
+            z-index: 100; /* 確保 dialog 在最上層 */
+        }
+
+        .dialog p {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .button-group button {
+            margin: 5px;
+        }
+
+        .button-group button.selected {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .price-container {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .price-container span {
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        #add-to-cart {
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        #close-dialog {
+            margin-top: 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #close-dialog:hover {
+            background-color: #e53935;
+        }
+
+        /* 購物車按鈕樣式 */
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 101; /* 確保在最上層 */
+        }
+
+        .cart-button:hover {
+            background-color: #e64a19;
+        }
+
+        .cart-button:active {
+            background-color: #d84315;
+        }
+
+        /* 購物車 Dialog 樣式 */
+        .cart-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 102; /* 確保 Dialog 在購物車按鈕之上 */
+        }
+
+        #cart-items-list {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .cart-item .details {
+            width: 70%;
+            text-align: left;
+        }
+
+        .cart-item .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-item .quantity button {
+            padding: 5px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-item .quantity span {
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+
+        .close-cart-dialog {
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-cart-dialog:hover {
+            background-color: #e64a19;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 購物車按鈕 -->
+    <button id="cart-button" class="cart-button">
+        🛒 購物車
+    </button>
+
+    <!-- 購物車 Dialog -->
+    <div id="cart-dialog" class="cart-dialog">
+        <h2>購物車內容</h2>
+        <div id="cart-items-list"></div>
+        <button id="close-cart-dialog" class="close-cart-dialog">關閉</button>
+    </div>
+
+
+    <div id="product-list"></div>
+
+    <!-- Dialog box -->
+    <div id="dialog" class="dialog">
+        <p id="dialog-content"></p>
+        <p>商品項目：</p>
+        <div class="button-group">
+            <button class="item-button" onclick="selectItem(this)">紅茶</button>
+            <button class="item-button" onclick="selectItem(this)">綠茶</button>
+            <button class="item-button" onclick="selectItem(this)">烏龍茶</button>
+        </div>
+        <p>飲料尺寸：</p>
+        <div class="button-group">
+            <button class="size-button" onclick="selectSize(this)">中杯</button>
+            <button class="size-button" onclick="selectSize(this)">大杯</button>
+        </div>
+        <p>甜度：</p>
+        <div class="button-group">
+            <button class="sugar-button" onclick="selectSugar(this)">無糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">微糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">半糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">少糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">正常</button>
+        </div>
+        <p>冰量：</p>
+        <div class="button-group">
+            <button class="ice-button" onclick="selectIce(this)">溫</button>
+            <button class="ice-button" onclick="selectIce(this)">去冰</button>
+            <button class="ice-button" onclick="selectIce(this)">微冰</button>
+            <button class="ice-button" onclick="selectIce(this)">少冰</button>
+            <button class="ice-button" onclick="selectIce(this)">正常</button>
+        </div>
+        <div class="price-container">
+            <span>金額：</span>
+            <span id="total-price">$0</span>
+        </div>
+        <button id="add-to-cart">加入購物車</button>
+        <button id="close-dialog">取消</button>
+    </div>
+
+    <script>
+        const drinks = {
+            "紅茶": 10,
+            "綠茶": 20,
+            "烏龍茶": 25
+        };
+
+        const drinkSizePrice = {
+            "中杯": 10,
+            "大杯": 15
+        };
+
+        const productList = document.getElementById('product-list');
+
+        const array = [
+            { "item": "茶類" },
+            { "item": "星冰樂" },
+            { "item": "那堤" }
+        ];
+
+        array.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            card.innerHTML = `
+                <h2>${product.item}</h2>
+                <button class="button" onclick="openDialog('${product.item}')">選擇</button>
+            `;
+
+            productList.appendChild(card);
+        });
+
+        function openDialog(item) {
+            const dialog = document.getElementById('dialog');
+            const dialogContent = document.getElementById('dialog-content');
+            dialog.style.display = 'block';
+            dialogContent.textContent = `選擇的商品類型: ${item}`;
+
+            // 保存所選商品類型
+            window.selectedItemType = item;
+
+            // 顯示背景暗化效果
+            document.body.classList.add('dark-background');
+            document.getElementById('product-list').classList.add('dark-background');
+
+            // 重置金額
+            document.getElementById('total-price').textContent = "$0";
+        }
+        
+
+        function selectItem(button) {
+            updateSelected(button, '.item-button');
+            const item = button.textContent;
+            const basePrice = drinks[item] || 0;
+            resetSizeAndPrice(basePrice);
+        }
+
+        function selectSize(button) {
+            updateSelected(button, '.size-button');
+            const size = button.textContent;
+            updatePrice(drinkSizePrice[size] || 0, true);
+        }
+
+        function selectSugar(button) {
+            updateSelected(button, '.sugar-button');
+        }
+
+        function selectIce(button) {
+            updateSelected(button, '.ice-button');
+        }
+
+        function updateSelected(button, selector) {
+            const buttons = document.querySelectorAll(selector);
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        }
+
+        function resetSizeAndPrice(basePrice) {
+            const priceSpan = document.getElementById('total-price');
+            priceSpan.textContent = `$${basePrice}`;
+            const sizeButtons = document.querySelectorAll('.size-button');
+            sizeButtons.forEach(btn => btn.classList.remove('selected'));
+        }
+
+        function updatePrice(additional, isSize = false) {
+            const priceSpan = document.getElementById('total-price');
+            let currentPrice = parseInt(priceSpan.textContent.replace('$', ''));
+
+            if (isSize) {
+                currentPrice = drinks[document.querySelector('.item-button.selected')?.textContent] || 0;
+            }
+
+            priceSpan.textContent = `$${currentPrice + additional}`;
+        }
+
+        // 加入購物車
+        document.getElementById('add-to-cart').addEventListener('click', () => {
+            const selectedItem = document.querySelector('.item-button.selected');
+            const selectedSize = document.querySelector('.size-button.selected');
+            const selectedSugar = document.querySelector('.sugar-button.selected');
+            const selectedIce = document.querySelector('.ice-button.selected');
+
+            if (selectedItem && selectedSize && selectedSugar && selectedIce) {
+                const cartItem = {
+                    item: selectedItem.textContent,
+                    size: selectedSize.textContent,
+                    sugar: selectedSugar.textContent,
+                    ice: selectedIce.textContent,
+                    price: calculateTotalPrice(selectedItem.textContent, selectedSize.textContent),
+                };
+
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(cartItem);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                alert(`已加入購物車: ${cartItem.item}, ${cartItem.size}, ${cartItem.sugar}, ${cartItem.ice}`);
+                closeDialog();
+                
+                //TODO
+                updateCartButton();
+            } else {
+                alert('請選擇甜度、冰量、尺寸及商品');
+            }
+        });
+
+        // 關閉視窗
+        document.getElementById('close-dialog').addEventListener('click', closeDialog);
+
+        function closeDialog() {
+            const dialog = document.getElementById('dialog');
+            dialog.style.display = 'none';
+           // 恢復背景亮度
+            document.body.classList.remove('dark-background');
+            document.getElementById('product-list').classList.remove('dark-background');
+        }
+    
+
+        // 計算總金額
+        function calculateTotalPrice(item, size) {
+            const drinks = {
+                "紅茶": 10,
+                "綠茶": 20,
+                "烏龍茶": 25
+            };
+
+            const drinkSizePrice = {
+                "中杯": 10,
+                "大杯": 15
+            };
+
+            const basePrice = drinks[item] || 0;
+            const sizePrice = drinkSizePrice[size] || 0;
+
+            return basePrice + sizePrice;
+        }
+
+        // 將商品加入購物車並更新localStorage
+        function addToCart(cartItem) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+            // 設置基礎價格和初始數量
+            cartItem.quantity = 1; // 初始數量
+            cartItem.basePrice = cartItem.price; // 基礎價格來自原始價格
+
+            // 將商品加入購物車
+            cart.push(cartItem);
+
+            // 儲存到 LocalStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // 更新購物車按鈕
+            // updateCartButton();
+        }
+
+        // 更新購物車按鈕顯示
+        function updateCartButton() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            console.log(cart)
+            const cartButton = document.getElementById('cart-button');
+            cartButton.textContent = `🛒 購物車 (${cart.length})`;
+        }
+
+        // 顯示購物車 Dialog
+        function showCartDialog() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartDialog = document.getElementById('cart-dialog');
+            const cartItemsList = document.getElementById('cart-items-list');
+
+            // 清空之前的內容
+            cartItemsList.innerHTML = '';
+
+            // 如果購物車是空的，顯示空購物車訊息
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<p>購物車是空的。</p>';
+            } else {
+                // 否則顯示購物車中的商品
+                cart.forEach((item, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    itemElement.innerHTML = `
+                        <div class="details">
+                            <p><strong>商品：</strong> ${item.item} (${item.size})</p>
+                            <p><strong>甜度：</strong> ${item.sugar}</p>
+                            <p><strong>冰量：</strong> ${item.ice}</p>
+                        </div>
+                        <div class="quantity">
+                            <button onclick="changeQuantity(${index}, -1)">-</button>
+                            <span>${item.quantity || 1}</span>
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                           
+                        </div>
+                        <p><strong>價格：</strong> $${item.price}</p>
+                    `;
+                    cartItemsList.appendChild(itemElement);
+                });
+            }
+
+            // 顯示購物車 Dialog
+            cartDialog.style.display = 'block';
+        }
+
+        // 更改商品數量
+        function changeQuantity(index, delta) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = cart[index];
+
+            // 計算新數量
+            const newQuantity = Math.max(1, (item.quantity || 1) + delta); // 最少為 1
+            item.quantity = newQuantity;
+
+            // 更新價格
+            item.price = item.basePrice * newQuantity; // 基本價格乘以新數量
+
+            // 儲存更新後的購物車資料
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // 更新購物車 dialog 顯示
+            showCartDialog();
+        }
+
+
+        // 關閉購物車 Dialog
+        function closeCartDialog() {
+            const cartDialog = document.getElementById('cart-dialog');
+            cartDialog.style.display = 'none';
+        }
+
+
+        // 當頁面載入時更新購物車按鈕
+        document.addEventListener('DOMContentLoaded', updateCartButton);
+
+
+        // 購物車按鈕點擊事件
+        document.getElementById('cart-button').addEventListener('click', showCartDialog);
+
+
+        // 關閉購物車 Dialog
+        document.getElementById('close-cart-dialog').addEventListener('click', closeCartDialog);
+
+        // 例如，將商品加入購物車
+        document.getElementById('add-to-cart-button').addEventListener('click', function() {
+            const cartItem = {
+                item: '紅茶',
+                size: '大杯',
+                sugar: '半糖',
+                ice: '去冰',
+                price: 35,
+            };
+
+            addToCart(cartItem); // 調用函數加入商品
+        });
+
+        // 在加入購物車時呼叫更新
+        document.querySelector('#add-to-cart-button').addEventListener('click', function() {
+            // 這裡是加入購物車的邏輯
+            // 加入購物車後更新購物車按鈕顯示
+            updateCartButton();
+        });
+
+        // 初始頁面載入時更新購物車按鈕
+        document.addEventListener('DOMContentLoaded', updateCartButton);
+
+    </script>
+</body>
+
+</html>
