@@ -591,14 +591,16 @@
         // 關閉視窗
         document.getElementById('close-dialog').addEventListener('click', closeDialog);
 
-        function closeDialog() {
-
-            
+        function closeDialog() {         
             const dialog = document.getElementById('cart-dialog');
             dialog.style="display: none;"     
 
             const dialog2 = document.getElementById('dialog');
             dialog2.style="display: none;"            
+
+            // 移除暗化效果
+            document.body.classList.remove('dark-background');
+            document.getElementById('product-list').classList.remove('dark-background');
         }
 
 
