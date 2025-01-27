@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品與飲品選擇器</title>
+    <style>
+
+        .teacard img {
+            width: 20%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;            
+            padding: 16px;
+            margin: 16px;            
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .teacard {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .teacard:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .teacard h5 {
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-top: 12px;
+            background-color: transparent;
+            border: 1px solid #000;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        .button:active {
+            transform: scale(1);
+            background-color: lightblue;
+        }
+
+
+        /* 背景暗化效果 */
+        body {
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-background {
+            background-color: rgba(0, 0, 0, 0.6); /* 讓背景暗化，降低亮度 */
+        }
+
+
+        /* 確保所有卡片都受到背景暗化的影響 */
+        #product-list {
+            transition: opacity 0.3s ease;
+        }
+
+
+        #product-list.dark-background {
+            opacity: 0.4; /* 卡片暗化，透明度降低 */
+        }
+        
+
+        /* Dialog 的樣式保持不變 */
+        .dialog {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            width: 300px;
+            z-index: 100; /* 確保 dialog 在最上層 */
+        }
+
+        .dialog p {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .button-group button {
+            margin: 5px;
+        }
+
+        .button-group button.selected {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .price-container {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .price-container span {
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        #add-to-cart {
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        #close-dialog {
+            margin-top: 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #close-dialog:hover {
+            background-color: #e53935;
+        }
+
+        /* 購物車按鈕樣式 */
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 101; /* 確保在最上層 */
+        }
+
+        .cart-button:hover {
+            background-color: #e64a19;
+        }
+
+        .cart-button:active {
+            background-color: #d84315;
+        }
+
+        /* 購物車 Dialog 樣式 */
+        .cart-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            max-height: 60%;
+            overflow: auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 102; /* 確保 Dialog 在購物車按鈕之上 */
+        }
+
+        #cart-items-list {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .cart-item-details .item-description {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .cart-item-price {
+            text-align: right;
+            width: 120px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .quantity-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .cart-item-price span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+        /* 確認與取消按鈕樣式 */
+        .dialog-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ccc;
+        }
+
+        .dialog-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .confirm-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .confirm-button:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .cancel-button:hover {
+            background-color: #e53935;
+        }
+
+        .close-cart-dialog {
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-cart-dialog:hover {
+            background-color: #e64a19;
+        }
+
+    </style>
+</head>
+
+<body>   
+    <!-- 購物車按鈕 -->
+    <button id="cart-button" class="cart-button">
+        🛒 購物車
+    </button>
+
+    <!-- 購物車 Dialog -->
+    <div id="cart-dialog" class="cart-dialog">
+        <h2>購物車內容</h2>
+        <div id="cart-items-list"></div>
+        <div class="dialog-actions">
+            <button id="confirm-button" class="confirm-button">確認</button>
+            <button id="cancel-button" class="cancel-button">取消</button>
+        </div>
+    </div>
+
+    <div id="product-list"></div>
+
+    <!-- 茶類卡片展示 -->
+    <div class="container my-4">
+        <div class="row">
+            <!-- 茶類卡片 1 -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="teacard">
+                    <img src="https://img.ltn.com.tw/Upload/food/page/2016/09/11/160911-3349-0-EqE8q.jpg"
+                        alt="tea Image">
+                    <div class="teacard-body">
+                        <h5 class="teacard-title">紅茶</h5>
+                        <p class="teacard-text"></p>                  
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- 茶類卡片 2 -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="teacard">
+                    <img src="https://img.shoplineapp.com/media/image_clips/65faaa03401dd500208fa248/original.jpg?1710926339"
+                        alt="tea Image">
+                    <div class="teacard-body">
+                        <h5 class="teacard-title">綠茶</h5>
+                        <p class="teacard-text"></p>                  
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- 茶類卡片 3 -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="teacard">
+                    <img src="https://cdn.helloyishi.com.tw/wp-content/uploads/2019/06/%E7%83%8F%E9%BE%8D%E8%8C%B6.jpg?w=828&q=100"
+                        alt="tea Image">
+                    <div class="teacard-body">
+                        <h5 class="teacard-title">烏龍茶</h5>
+                        <p class="teacard-text"></p>                  
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Dialog box -->
+    <div id="dialog" class="dialog">
+        <p id="dialog-content"></p>
+        <p>商品項目：</p>
+        <div class="button-group">
+            <button class="item-button" onclick="selectItem(this)">紅茶</button>
+            <button class="item-button" onclick="selectItem(this)">綠茶</button>
+            <button class="item-button" onclick="selectItem(this)">烏龍茶</button>
+        </div>
+        <p>飲料尺寸：</p>
+        <div class="button-group">
+            <button class="size-button" onclick="selectSize(this)">中杯</button>
+            <button class="size-button" onclick="selectSize(this)">大杯</button>
+        </div>
+        <p>甜度：</p>
+        <div class="button-group">
+            <button class="sugar-button" onclick="selectSugar(this)">無糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">微糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">半糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">少糖</button>
+            <button class="sugar-button" onclick="selectSugar(this)">正常</button>
+        </div>
+        <p>冰量：</p>
+        <div class="button-group">
+            <button class="ice-button" onclick="selectIce(this)">溫</button>
+            <button class="ice-button" onclick="selectIce(this)">去冰</button>
+            <button class="ice-button" onclick="selectIce(this)">微冰</button>
+            <button class="ice-button" onclick="selectIce(this)">少冰</button>
+            <button class="ice-button" onclick="selectIce(this)">正常</button>
+        </div>
+        <div class="price-container">
+            <span>金額：</span>
+            <span id="total-price">$0</span>
+        </div>
+        <button id="add-to-cart">加入購物車</button>
+        <button id="close-dialog">取消</button>
+    </div>
+
+    <script>
+        const drinks = {
+            "紅茶": 10,
+            "綠茶": 20,
+            "烏龍茶": 25,
+            "可可星冰樂": 90,
+            "咖啡星冰樂": 80,
+            "抹茶星冰樂": 95,
+            "焦糖星冰樂": 85,
+            "濃縮咖啡": 80,
+            "焦糖瑪奇朵": 100,
+            "摩卡": 110,
+            "美式咖啡": 85,
+            "卡布奇諾": 120
+        };
+
+        const drinkSizePrice = {
+            "中杯": 10,
+            "大杯": 15
+        };
+ 
+
+        const productList = document.getElementById('product-list');
+
+        const array = [
+            { "item": "茶類" },
+            { "item": "星冰樂" },
+            { "item": "那堤" }
+        ];
+
+        array.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            card.innerHTML = `
+                <h2>${product.item}</h2>
+                <button class="button" onclick="openDialog('${product.item}')">選擇</button>
+            `;
+
+            productList.appendChild(card);
+        });
+
+        function openDialog(item) {
+            const dialog = document.getElementById('dialog');
+            const dialogContent = document.getElementById('dialog-content');
+            dialog.style.display = 'block';
+            dialogContent.textContent = `選擇的商品類型: ${item}`;
+
+            // 保存所選商品類型
+            window.selectedItemType = item;
+
+            // 顯示背景暗化效果
+            document.body.classList.add('dark-background');
+            document.getElementById('product-list').classList.add('dark-background');
+
+            
+            // 根據商品類型更新商品項目、甜度和冰量
+            if (item === "星冰樂") {
+                updateItemOptions(["可可星冰樂", "咖啡星冰樂", "抹茶星冰樂", "焦糖星冰樂"]);
+                updateSugarOptions(["固定甜度"]);
+                updateIceOptions(["固定冰量"]);
+            } else if (item === "那堤") {
+                updateItemOptions(["濃縮咖啡", "焦糖瑪奇朵", "摩卡", "美式咖啡", "卡布奇諾"]);
+                updateSugarOptions(["無糖", "微糖", "半糖", "少糖", "正常"]);
+                updateIceOptions(["溫", "去冰", "微冰", "少冰", "正常"]);
+            } else {
+                updateItemOptions(["紅茶", "綠茶", "烏龍茶"]);
+                updateSugarOptions(["無糖", "微糖", "半糖", "少糖", "正常"]);
+                updateIceOptions(["溫", "去冰", "微冰", "少冰", "正常"]);
+            }
+
+            // 重置金額
+            document.getElementById('total-price').textContent = "$0";
+        }
+
+        function updateItemOptions(items) {
+            const itemButtons = document.querySelectorAll('.item-button');
+            itemButtons.forEach(button => button.remove());
+
+            const buttonGroup = document.querySelector('.button-group');
+            items.forEach(item => {
+                const button = document.createElement('button');
+                button.className = 'item-button';
+                button.textContent = item;
+                button.onclick = () => selectItem(button);
+                buttonGroup.appendChild(button);
+            });
+        }
+
+        function updateSizeOptions(size) {
+            const sizeButtons = document.querySelectorAll('.size-button');
+            sizeButtons.forEach(button => button.remove());
+
+            const buttonGroup = document.querySelector('.button-group:nth-of-type(3)');
+            sizes.forEach(size => {
+                const button = document.createElement('button');
+                button.className = 'size-button';
+                button.textContent = size;
+                button.onclick = () => selectSize(button);
+                buttonGroup.appendChild(button);
+            });
+        }
+
+
+        function updateSugarOptions(sugars) {
+            const sugarButtons = document.querySelectorAll('.sugar-button');
+            sugarButtons.forEach(button => button.remove());
+
+            const buttonGroup = document.querySelector('.button-group:nth-of-type(3)');
+            sugars.forEach(sugar => {
+                const button = document.createElement('button');
+                button.className = 'sugar-button';
+                button.textContent = sugar;
+                button.onclick = () => selectSugar(button);
+                buttonGroup.appendChild(button);
+            });
+        }
+
+        function updateIceOptions(ices) {
+            const iceButtons = document.querySelectorAll('.ice-button');
+            iceButtons.forEach(button => button.remove());
+
+            const buttonGroup = document.querySelector('.button-group:nth-of-type(4)');
+            ices.forEach(ice => {
+                const button = document.createElement('button');
+                button.className = 'ice-button';
+                button.textContent = ice;
+                button.onclick = () => selectIce(button);
+                buttonGroup.appendChild(button);
+            });
+        }
+
+        function selectItem(button) {
+            updateSelected(button, '.item-button');
+            const item = button.textContent;
+            const basePrice = drinks[item] || 0;
+            resetSizeAndPrice(basePrice);
+
+            // 重置甜度和冰量的選擇
+            const sugarButtons = document.querySelectorAll('.sugar-button');
+            sugarButtons.forEach(btn => btn.classList.remove('selected'));
+
+            const iceButtons = document.querySelectorAll('.ice-button');
+            iceButtons.forEach(btn => btn.classList.remove('selected'));
+        }
+
+        function selectSize(button) {
+            updateSelected(button, '.size-button');
+            const size = button.textContent;
+            updatePrice(drinkSizePrice[size] || 0, true);
+        }
+
+        function selectSugar(button) {
+            updateSelected(button, '.sugar-button');
+        }
+
+        function selectIce(button) {
+            updateSelected(button, '.ice-button');
+        }
+
+        function updateSelected(button, selector) {
+            const buttons = document.querySelectorAll(selector);
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        }
+
+        function resetSizeAndPrice(basePrice) {
+            const priceSpan = document.getElementById('total-price');
+            priceSpan.textContent = `$${basePrice}`;
+            const sizeButtons = document.querySelectorAll('.size-button');
+            sizeButtons.forEach(btn => btn.classList.remove('selected'));
+        }
+
+        function updatePrice(additional, isSize = false) {
+            const priceSpan = document.getElementById('total-price');
+            let currentPrice = parseInt(priceSpan.textContent.replace('$', ''));
+
+            if (isSize) {
+                currentPrice = drinks[document.querySelector('.item-button.selected')?.textContent] || 0;
+            }
+
+            priceSpan.textContent = `$${currentPrice + additional}`;
+        }
+        
+
+        // 加入購物車
+        document.getElementById('add-to-cart').addEventListener('click', () => {
+            const selectedItem = document.querySelector('.item-button.selected');
+            const selectedSize = document.querySelector('.size-button.selected');
+            const selectedSugar = document.querySelector('.sugar-button.selected');
+            const selectedIce = document.querySelector('.ice-button.selected');
+
+            // 檢查是否選擇了商品、尺寸、甜度和冰量
+            if (!selectedItem || !selectedSize || !selectedSugar || !selectedIce) {
+                let missingItems = [];
+                if (!selectedItem) missingItems.push("商品");
+                if (!selectedSize) missingItems.push("尺寸");
+                if (!selectedSugar) missingItems.push("甜度");
+                if (!selectedIce) missingItems.push("冰量");
+
+                alert(`請選擇 ${missingItems.join(", ")}。`);
+                return; // 不執行加入購物車動作
+            }
+
+            const cartItem = {
+                item: selectedItem.textContent,
+                size: selectedSize.textContent,
+                sugar: selectedSugar.textContent,
+                ice: selectedIce.textContent,
+                price: calculateTotalPrice(selectedItem.textContent, selectedSize.textContent),
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // 檢查是否已存在相同的商品
+            const existingItemIndex = cart.findIndex(item =>
+                item.item === cartItem.item &&
+                item.size === cartItem.size &&
+                item.sugar === cartItem.sugar &&
+                item.ice === cartItem.ice
+            );
+
+            if (existingItemIndex !== -1) {
+                // 如果已存在，增加數量
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // 如果不存在，新增至購物車
+                cart.push(cartItem);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            alert(`已加入購物車: ${cartItem.item}, ${cartItem.size}, ${cartItem.sugar}, ${cartItem.ice}`);
+            closeDialog();
+        
+            
+            // 更新購物車按鈕顯示
+            updateCartButton();
+        });
+
+        // 更新購物車按鈕數量顯示
+        function updateCartButton() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // 計算購物車內商品數量加總
+            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            const cartButton = document.getElementById('cart-button');
+            if (cartButton) {
+                cartButton.textContent = `購物車 (${totalQuantity})`;
+            }
+        }
+
+        // 初始化購物車按鈕數量顯示
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartButton();
+        });
+
+
+
+        // 關閉視窗
+        document.getElementById('close-dialog').addEventListener('click', closeDialog);
+
+        function closeDialog() {         
+            const dialog = document.getElementById('cart-dialog');
+            dialog.style="display: none;"     
+
+            const dialog2 = document.getElementById('dialog');
+            dialog2.style="display: none;"            
+
+            // 移除暗化效果
+            document.body.classList.remove('dark-background');
+            document.getElementById('product-list').classList.remove('dark-background');
+        }
+
+
+        // 計算總金額
+        function calculateTotalPrice(item, size) {
+            const drinks = {
+                "紅茶": 10,
+                "綠茶": 20,
+                "烏龍茶": 25,
+                "可可星冰樂": 90,
+                "咖啡星冰樂": 80,
+                "抹茶星冰樂": 95,
+                "焦糖星冰樂": 85,
+                "濃縮咖啡": 80,
+                "焦糖瑪奇朵": 100,
+                "摩卡": 110,
+                "美式咖啡": 85,
+                "卡布奇諾": 120
+            };
+
+            const drinkSizePrice = {
+                "中杯": 10,
+                "大杯": 15
+            };
+
+            const basePrice = drinks[item] || 0;
+            const sizePrice = drinkSizePrice[size] || 0;
+
+            return basePrice + sizePrice;
+        }
+
+
+        // 更新購物車按鈕顯示
+        // function updateCartButton() {
+        //     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        //     const cartButton = document.getElementById('cart-button');
+        //     cartButton.textContent = `🛒 購物車 (${cart.length})`;
+        // }
+
+        // 顯示購物車
+        document.getElementById('cart-button').addEventListener('click', () => {
+            
+            showUpdatedCart()
+            // const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // const cartItemsList = document.getElementById('cart-items-list');
+            // cartItemsList.innerHTML = '';
+
+            // cart.forEach((item, index) => {
+            //     const cartItem = document.createElement('div');
+            //     cartItem.classList.add('cart-item');
+
+            //     cartItem.innerHTML = `
+            //         <div class="cart-item-details">
+            //             <h3>${item.item}</h3>
+            //             <div class="item-description">
+            //                ${item.size}/  ${item.sugar} /  ${item.ice}
+            //             </div>
+            //         </div>
+            //         <div class="cart-item-price">
+            //             <div class="quantity-controls">
+            //                 <button onclick="updateItemQuantity(${index}, 'decrease',1111)">-</button>
+            //                 <span>${item.quantity}</span>
+            //                 <button onclick="updateItemQuantity(${index}, 'increase',1111)">+</button>
+            //             </div>
+            //             <div>價格: $${item.price}</div>
+            //         </div>
+            //     `;
+
+            //     cartItemsList.appendChild(cartItem);
+            // });
+
+            document.getElementById('cart-dialog').style.display = 'block';
+        });
+
+       
+    
+        // 更新購物車商品數量
+        function updateItemQuantity(index, action, number) {
+            console.log(number)
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let item = cart[index];
+
+            if (action === 'increase') {
+                item.quantity++;
+            } else if (action === 'decrease' && item.quantity > 0) {
+                item.quantity--;
+            }
+
+        // 如果數量減至 0，刪除該商品
+            if (item.quantity === 0) {
+                cart.splice(index, 1);
+            } else {
+                // 更新價格
+                item.price = calculateTotalPrice(item.item, item.size) * item.quantity;
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log(2222)
+            updateCartButton();  // 更新購物車顯示
+            showUpdatedCart();
+        }
+
+        function showUpdatedCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsList = document.getElementById('cart-items-list');
+            cartItemsList.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+
+                cartItem.innerHTML = `
+                    <div class="cart-item-details">
+                        <h3>${item.item}</h3>
+                        <div class="item-description">
+                             ${item.size}/  ${item.sugar} /  ${item.ice}
+                        </div>
+                    </div>
+                    <div class="cart-item-price">
+                        <div class="quantity-controls">
+                            <button onclick="updateItemQuantity(${index}, 'decrease',2222)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateItemQuantity(${index}, 'increase',2222333)">+</button>
+                        </div>
+                        <div>價格: $${item.price}</div>
+                    </div>
+                `;
+
+                cartItemsList.appendChild(cartItem);
+            });
+        }
+        
+
+       // 取消購物車視窗     
+       document.getElementById('confirm-button').addEventListener('click', closeDialog);
+       
+       document.getElementById('cancel-button').addEventListener('click', closeDialog);
+           
+      
+        // 初始購物車按鈕顯示
+        updateCartButton();
+    </script>
+</body>
+
+</html>
+
+

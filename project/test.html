@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>localStorage 範例</title>
+</head>
+<body>
+    <h1>localStorage 範例</h1>
+    <button onclick="storeData()">儲存數據</button>
+    <button onclick="retrieveData()">讀取數據</button>
+    <button onclick="removeData()">刪除數據</button>
+
+    <script>
+        function storeData() {
+            localStorage.setItem("username", "Tom");
+            localStorage.setItem("age", "25");
+            alert("數據已儲存");
+        }
+
+        function retrieveData() {
+            let username = localStorage.getItem("username");
+            let age = localStorage.getItem("age");
+            alert("Username: " + username + "\nAge: " + age);
+        }
+
+        function removeData() {
+            localStorage.removeItem("username");
+            localStorage.removeItem("age");
+            alert("數據已刪除");
+        }
+    </script>
+</body>
+</html>
