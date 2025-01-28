@@ -723,33 +723,27 @@
         cartOverlay.addEventListener('click', closeDialog);
 
 
-        // 同步購物車資料到後端
-        async function syncCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItems = JSON.parse(localStorage.getItem('cart'));
 
-            if (cart.length === 0) {
-                alert('購物車是空的');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/api/cart', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cartItems: cart })  // 移除 userId
-                });
-
-                if (response.ok) {
-                    alert('購物車已成功同步至後端');
-                    localStorage.removeItem('cart');  // 清空購物車
-                } else {
-                    alert('同步失敗，請稍後再試');
-                }
-            } catch (error) {
-                console.error('同步過程中發生錯誤:', error);
-                alert('同步過程中發生錯誤，請檢查網路連線');
-            }
+        if (cartItems && cartItems.length > 0) {
+        fetch('http://localhost:3000/api/cart', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cartItems }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log('伺服器回應：', data);
+            })
+            .catch((error) => {
+            console.error('發送失敗：', error);
+            });
+        } else {
+        console.log('購物車是空的');
         }
+
 
 
         
