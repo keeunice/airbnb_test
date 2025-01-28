@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 // 使用環境變量管理 MongoDB 連接字串
 const mongoUri = process.env.MONGO_URI || 'mongodb+srv://eunice001234:zTu5J1Wproanjq2V@cluster0.h5q8k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
@@ -30,13 +32,11 @@ const cartSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-const Cart = mongoose.model('Cart', cartSchema);
+const Cart = mongoose.model('Cart', cartSchema, 'cart');
 
 // 接收購物車同步請求
 app.post('/api/cart', async (req, res) => {
-  console.log('Received request to /api/cart with body:', req.body);
-
-  const { cartItems } = req.body;
+    const { cartItems } = req.body;
 
   // 驗證是否有購物車數據
   if (!cartItems || cartItems.length === 0) {
@@ -47,6 +47,7 @@ app.post('/api/cart', async (req, res) => {
     // 儲存購物車
     const newCart = new Cart({
       cartItems,
+      timestamp: new Date(),
     });
 
     await newCart.save();
@@ -59,11 +60,7 @@ app.post('/api/cart', async (req, res) => {
 });
 
 // 啟動伺服器
-app.listen(port, (err) => {
-  if (err) {
-    console.error('伺服器啟動失敗:', err);
-  } else {
-    console.log(`Server running at http://localhost:${port}`);
-  }
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
 

@@ -731,7 +731,18 @@
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ cartItems }),
+            body: JSON.stringify({
+                cartItems: [
+                    {
+                        item: 'Milk Tea',
+                        size: 'Large',
+                        sugar: '50%',
+                        ice: 'Less',
+                        price: 100,
+                        quantity: 1
+                    }
+                ]
+            })
         })
             .then((response) => response.json())
             .then((data) => {
