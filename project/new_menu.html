@@ -729,26 +729,15 @@
         fetch('http://localhost:3000/api/cart', {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                cartItems: [
-                    {
-                        item: 'Milk Tea',
-                        size: 'Large',
-                        sugar: '50%',
-                        ice: 'Less',
-                        price: 100,
-                        quantity: 1
-                    }
-                ]
-            })
+            body: JSON.stringify({cartItems})
         })
-            .then((response) => response.json())
-            .then((data) => {
+        .then((response) => response.json())
+        .then((data) => {
             console.log('伺服器回應：', data);
             })
-            .catch((error) => {
+        .catch((error) => {
             console.error('發送失敗：', error);
             });
         } else {
