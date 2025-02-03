@@ -26,7 +26,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
       padding-bottom: 10px;
       margin-bottom: 20px;
     }
@@ -38,21 +37,33 @@
       cursor: pointer;
       border-radius: 5px;
       font-size: 14px;
+      margin-left: 15px;
     }
     .title {
-      font-size: 24px;
+      font-size: 35px;
       font-weight: bold;
+      text-align: right;
+      margin-right: 15px;
     }
+    .subtitle {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 2px; /* 與 title 底部保持 2px 的距離 */
+      margin-right: 15px;
+    }
+
+
     /* 4. 主要內容：左右分欄 */
     .main-content {
       display: flex;
       justify-content: space-between;
     }
     .left-section {
-      width: 55%;
+      width: 62%;
     }
     .right-section {
-      width: 40%;
+      width: 35%;
     }
     /* 5. 左側：上方並排兩個小框 (採樣編號 / 採樣日期) + 下方一個大框 (作品資料) */
     .top-row {
@@ -60,43 +71,159 @@
       gap: 20px;        /* 兩個小框間距 */
       margin-bottom: 20px;
     }
-    .info-box {
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 10px;
-      padding: 10px;
-      flex: 1;
+
+    .sample-id-box {
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      /* 減少上下 padding 來縮小高度 */
+      padding: 20px 15px 15px;
+      margin-bottom: 20px;
+      width: 180px;  /* 假設 sample-id 的寬度為 180px */
+      height: 30px;
+      margin-right: 10px;
+      text-align: center;
+      margin-left: 10px;
     }
-    .info-title {
+
+    /* 標題：絕對定位在框線頂部，水平置中 */
+    .sample-id {
+      position: absolute;
+      top: 0;           /* 與 info-box 的頂部對齊 */
+      left: 50%;        /* 水平置中 */
+      transform: translate(-50%, -50%); /* 往左移一半寬度、往上移一半高度 */
       background: #6A5ACD;
-      padding: 5px 10px;
-      border-radius: 5px;
+      padding: 3px 0px;
+      border-radius: 40px;
       font-weight: bold;
-      display: inline-block;
-      margin-bottom: 5px;
+      margin: 0;        /* 移除可能的預設 margin */
+      white-space: nowrap; /* 避免標題過長時換行，可視需求保留或移除 */
+      width: 80%;
+      text-align: center;
     }
+
+    .sample-date-box {
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 20px 15px 15px;
+      margin-bottom: 20px;
+      /* 寬度比 sample-id 大 20px */
+      width: 275px;
+      height: 30px;
+      text-align: center;
+    }
+
+
+    /* 標題：絕對定位在框線頂部，水平置中 */
+    .sample-date {
+      position: absolute;
+      top: 0;           /* 與 info-box 的頂部對齊 */
+      left: 50%;        /* 水平置中 */
+      transform: translate(-50%, -50%); /* 往左移一半寬度、往上移一半高度 */
+      background: #6A5ACD;
+      padding: 3px 0px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin: 0;        /* 移除可能的預設 margin */
+      white-space: nowrap; /* 避免標題過長時換行，可視需求保留或移除 */
+      width: 60%;
+      text-align: center;
+    }
+
+
+    .info-box {
+      position: relative;  /* 讓標題可絕對定位 */
+      border: 2px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border-radius: 30px;
+      /* 因為標題會壓在頂部，需要預留一些上方空間 */
+      padding: 15px 20px 10px; 
+      margin-bottom: 15px;     /* 區塊間距，可自行調整 */
+      text-align: left;
+      margin-left: 10px;
+      min-height: 100px; /* 設定最小高度，根據需要調整 */
+    }
+
+    /* 標題：絕對定位在框線頂部，水平置中 */
+    .info-title {
+      position: absolute;
+      top: 0;           /* 與 info-box 的頂部對齊 */
+      left: 50%;        /* 水平置中 */
+      transform: translate(-50%, -50%); /* 往左移一半寬度、往上移一半高度 */
+      background: #6A5ACD;
+      padding: 3px 0;
+      border-radius: 40px;
+      font-weight: bold;
+      margin: 0;        /* 移除可能的預設 margin */
+      white-space: nowrap; /* 避免標題過長時換行，可視需求保留或移除 */
+      width: 35%;
+      text-align: center;
+    }
+
+    /* 新增 info-box2 樣式 */
+    .info-box2 {
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 15px 20px 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      text-align: left;
+      margin-left: 10px;
+      height: 237px; 
+    }
+              
     /* 6. 右側：上方圖片容器 + 下方數位指紋 */
     .image-box {
-      width: 100%;
-      height: 250px;
-      background: #fff;
-      border-radius: 10px;
+      width: 95%;
+      height: 325px;
+      background:  rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
       margin-bottom: 20px;
     }
     .fingerprint-box {
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 10px;
+      width: 82.5%;
+      border: 2px solid rgba(255,255,255,0.05);
+      background:  rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
       padding: 10px;
+      position: relative;  /* 讓標題可絕對定位 */
+      /* 因為標題會壓在頂部，需要預留一些上方空間 */
+      padding: 40px 20px 20px; 
+      margin-bottom: 20px;     /* 區塊間距，可自行調整 */
+      margin-top: 40px;
     }
     .fingerprint-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
+      margin-top: 5px;
     }
     .fingerprint-container div {
       width: 70px;
       height: 70px;
-      background-color: white;
       border-radius: 5px;
+      display: flex;
+      justify-content: center;  /* 水平置中 */
+      align-items: flex-end;    /* 垂直靠底 */
+    }
+    .fingerprint-box-title {
+      position: absolute;
+      top: 0;           /* 與 fingerprint-box 的頂部對齊 */
+      left: 50%;        /* 水平置中 */
+      transform: translate(-50%, -50%); /* 往左移一半寬度、往上移一半高度 */
+      background: #6A5ACD;
+      padding: 5px 10px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin: 0;        /* 移除可能的預設 margin */
+      white-space: nowrap; /* 避免標題過長時換行，可視需求保留或移除 */
+      width: 60%;
+      text-align: center;
     }
   </style>
 </head>
@@ -106,8 +233,11 @@
     <!-- Header：切換語言按鈕 + 標題 -->
     <div class="header">
       <button id="lang-btn" class="lang-btn" onclick="switchLanguage()">switchlanguage</button>
-      <div class="title" id="title">採樣確認書</div>
+      <div class="title-container">
+        <div class="title" id="title">採樣確認書</div>
+        <div class="subtitle" id="subtitle">Completion of Sampling Confirmation</div>
     </div>
+  </div>
 
     <!-- 主要內容：左右分欄 -->
     <div class="main-content">
@@ -115,12 +245,12 @@
       <div class="left-section">
         <!-- 上方：採樣編號 & 採樣日期 並排 -->
         <div class="top-row">
-          <div class="info-box">
-            <div class="info-title" id="sample-id-title">採樣編號</div>
+          <div class="sample-id-box">
+            <div class="sample-id" id="sample-id-title">採樣編號</div>
             <p id="sample-id">TW-20240528</p>
           </div>
-          <div class="info-box">
-            <div class="info-title" id="sample-date-title">採樣日期</div>
+          <div class="sample-date-box">
+            <div class="sample-date" id="sample-date-title">採樣日期</div>
             <p id="sample-date">2024/05/28 13:00</p>
           </div>
         </div>
@@ -133,6 +263,12 @@
             典藏單位: 受委託人
           </p>
         </div>
+        <!-- 新增 info-box2 -->
+        <div class="info-box2">
+          <p id="additional-info">
+            +++++++++++++++++
+          </p>        
+        </div>
       </div>
 
       <!-- 右側區塊 -->
@@ -143,12 +279,12 @@
         </div>
         <!-- 數位指紋 -->
         <div class="fingerprint-box">
-          <div class="info-title" id="fingerprint-title">數位指紋</div>
+          <div class="fingerprint-box-title" id="fingerprint-title">數位指紋</div>
           <div class="fingerprint-container">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div>01</div>
+            <div>02</div>
+            <div>03</div>
+            <div>04</div>
           </div>
         </div>
       </div>
@@ -160,6 +296,7 @@
     const translations = {
       zh: {
         title: "採樣確認書",
+        subtitle:"Completion of Sampling Confirmation",
         sampleIdTitle: "採樣編號",
         sampleDateTitle: "採樣日期",
         workInfoTitle: "作品資料",
@@ -170,7 +307,8 @@
         buttonText: "switchlanguage"
       },
       en: {
-        title: "Completion of Sampling Confirmation",
+        title: "採樣確認書",
+        subtitle:"Completion of Sampling Confirmation",
         sampleIdTitle: "Sampling Number",
         sampleDateTitle: "Sampling Date",
         workInfoTitle: "Work Information",
