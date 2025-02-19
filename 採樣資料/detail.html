@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>detail</title>
+    <style>
+        .detailcontainer {
+            width: 1293px;
+            height: 871.4px;
+            background: rgba(247, 247, 247, 1);
+            border-radius: 16px;
+            gap: 16px;            
+        }
+
+        .tabcontainer {
+            display: flex;
+            justify-content: flex-start;
+            margin: 24px 0 16px 16px;
+            position: relative;
+            padding-bottom: 2px; /* 增加 padding 以便底線顯示 */
+            gap: 60px;
+        }
+
+        .tabcontainer::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5e5e5e;
+            padding: 0 0 8px 0;
+            cursor: pointer;
+            width: 136px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            line-height: 19.36px;
+        }
+
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0px; /* 與 .tabcontainers 群的底線重合 */
+            width: 100%;
+            border-bottom: 3px solid #17b6c9;
+            height: 3px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .tab.active {
+            color: #17b6c9;
+        }
+
+        .signature-row1 {
+            display: flex;
+            width: 1261px;
+            height: 107px;
+            gap: 40px;
+            justify-content: space-between;            
+            box-sizing: border-box;
+            margin: 0 16px;
+            align-items: flex-start;
+            position: relative;
+        }
+        .signature-row2 {
+            display: flex;
+            width: 1261px;
+            height: 47px;
+            gap: 40px;
+            justify-content: space-between;            
+            box-sizing: border-box;
+            margin: 16px ;
+            align-items: flex-start;
+            position: relative;
+        }
+        .signature-row3 {
+            display: flex;
+            width: 1261px;
+            height: 63px;
+            gap: 40px;
+            justify-content: space-between;            
+            box-sizing: border-box;
+            margin: 16px ;
+            align-items: flex-start;
+            position: relative;
+        }
+        .signature-row4 {
+            display: flex;
+            width: 1261px;
+            height: 47px;
+            box-sizing: border-box;
+            margin: 16px ;
+            align-items: flex-start;
+            position: relative;
+        }
+        .signature-row5 {
+            display: flex;
+            width: 1261px;
+            height: 19px;        
+            box-sizing: border-box;
+            margin: 0 16px;
+            align-items: flex-start;
+            position: relative;
+        }        
+        .signature-row6 {
+            display: flex;
+            width: 1261px;
+            height: 343.41px;
+            gap: 40px;
+            justify-content: space-between;            
+            box-sizing: border-box;
+            margin: 8px 16px 0;
+            align-items: flex-start;
+            position: relative;
+            flex-direction: row;
+            opacity: 0.8;
+        }          
+
+        h4 {
+            width: 610.5px;
+            height: 19px;
+            font-family: Inter;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19.36px;
+            margin: 0 0 8px;
+            color: rgba(38, 38, 38, 1);        
+        }
+        .signplace {
+            width: 610.5px;
+            height: 80px;
+            border-bottom: 1px solid rgba(34, 34, 34, 1)
+        }
+        .shortinfo {
+            width: 610.5px;
+            height: 20px;
+            color: rgba(34, 34, 34, 1);
+        }
+        .rowleft, .rowright {
+            display: flex;
+            flex-direction: column; /* 讓內容上下排列 */
+            justify-content: space-between;
+        }
+        .info-input-field {
+            width: 610.5px;
+            height: 36px;
+            padding: 8px 16px;
+            border: 1px solid rgba(34, 34, 34, 1);
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: rgba(249, 249, 249, 1);
+            margin-bottom: 16px; /* 標題與輸入框之間增加距離 */
+        }
+        .signbuttons {
+            display: flex;
+            width: 610.5px;
+            height: 65px;
+            gap: 16px;
+            justify-content: right;
+
+        }
+
+        .signbutton {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .signicon {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            font-size: 14px;
+            align-items: flex-end;
+        }
+
+        .signbutton span {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="detailcontainer">
+        <!-- 標籤選單 -->
+        <div class="tabcontainer">
+            <div class="tab" onclick="showTab(event, 'images')">採證圖片(20)</div>
+            <div class="tab active" onclick="showTab(event, 'details')">詳細資訊</div>
+            <div class="tab" onclick="showTab(event, 'legal')">法律諮詢</div>
+            <div class="tab" onclick="showTab(event, 'preview')">預覽證書</div>
+        </div>
+
+        <!-- 採證圖片 -->
+        <div id="images" class="tab-content" style="display:none;">
+            <p>這裡是採證圖片內容。</p>
+        </div>
+          
+        <!-- 詳細資訊 -->
+        <div id="details" class="tab-content" >
+            <div class="signature-row1">
+                <div class="rowleft">
+                    <h4>採樣人簽名</h4>
+                    <div class="signplace">
+                        <div class="signbuttons">
+                            <div class="signbutton">
+                                <div class="signicon">
+                                    <img src="C:\Users\USER\Desktop\藝信coding\project\img\pen.png">
+                                </div>
+                                <span>繪製</span>
+                            </div>
+                            <div class="signbutton">
+                                <div class="signicon">
+                                    <img src="C:\Users\USER\Desktop\藝信coding\project\img\upload.png">
+                                </div>
+                                <span>上傳</span>
+                            </div>
+                        </div>         
+
+                    </div>
+                                             
+                </div>
+                <div class="rowright">
+                    <h4>委託人簽名</h4>
+                    <div class="signplace"></div>    
+                </div>
+            </div>
+            <div class="signature-row2">
+                <div class="rowleft">
+                    <h4>採樣人姓名</h4>
+                    <div class="shortinfo">簡辰宇</div>                                  
+                </div>
+                <div class="rowright">
+                    <h4>採樣人簽署日期</h4>
+                    <div class="shortinfo">2024.10.11 | 11:17:45 AM</div>    
+                </div>
+            </div>
+            <div class="signature-row3">
+                <div class="rowleft">
+                    <h4>委託人姓名</h4>
+                    <input class="info-input-field" type="text" value="">                                 
+                </div>
+                <div class="rowright">
+                    <h4>與創作者關係</h4>
+                    <input class="info-input-field" type="text" value="">
+                </div>
+            </div>
+            <div class="signature-row4">
+                <div class="rowleft">
+                    <h4>採樣人簽署日期</h4>
+                    <div class="shortinfo">2024.10.11 | 11:18:51 AM</div>                                  
+                </div>
+            </div>
+            <div class="signature-row3">
+                <div class="rowleft">
+                    <h4>採樣人簽署經緯度</h4>
+                    <input class="info-input-field" type="text" value="採樣人簽署後帶入" style="color: rgba(94, 94, 94, 1)";>                                
+                </div>
+                <div class="rowright">
+                    <h4>委託人簽署經緯度</h4>
+                    <input class="info-input-field" type="text" value="委託人簽署後帶入" style="color: rgba(94, 94, 94, 1)";>
+                </div>
+            </div>
+            <div class="signature-row5">
+                <h4>採證影片</h4>
+            </div>
+            <div class="signature-row6">
+                <img src="C:\Users\USER\Desktop\藝信coding\project\img\Video2.png">
+                <img src="C:\Users\USER\Desktop\藝信coding\project\img\Video.png">
+            </div>
+        </div>
+    
+        <!-- 法律諮詢 -->
+        <div id="legal" class="tab-content" style="display:none;">
+            <p>這裡是法律諮詢內容。</p>
+        </div>
+    
+        <!-- 預覽證書 -->
+        <div id="preview" class="tab-content" style="display:none;">
+            <p>這裡是預覽證書內容。</p>
+        </div>
+    </div>
+    <script>
+        function showTab(event, tabName) {
+            var i, tabcontent, tablinks;
+
+            // 隱藏所有 tab-content
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // 移除所有 tab 的 active class
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // 顯示當前 tab 的內容，並添加 active class 到點擊的 tab
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>

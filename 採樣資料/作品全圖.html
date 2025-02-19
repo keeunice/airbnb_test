@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品全圖</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+        }
+        .piccontainer {
+            display: flex;
+            width: 312px;
+            height: 527px;
+            opacity: 0.8;
+            border-radius: 16px;
+            background-color: #F7F7F7;
+            flex-direction: column;
+        }
+        .picheader {
+            display: flex;
+            width: 280px;
+            height: 30px;
+            gap: 4px;
+            flex-direction: row;
+            margin: 24px 16px 0px;
+        }
+        .pictitle {
+            width: 212px;
+            height: 22px;
+            font-family: Inter;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 21.78px;
+            letter-spacing: 0%;
+            text-align: left;
+        }
+        .qrcode-container {
+            display: flex;
+            width: 64px;
+            height: 30px;
+            gap: 4px;
+            flex-direction: row;
+        }
+        .button{
+            width: 30px;
+            height: 30px;
+            gap: 10px;
+            border-radius: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #17B6C9;
+            cursor: pointer;
+        }
+        .image-box {
+            width: 280px;
+            height: 370px;
+            border-radius: 16px;
+            margin: 16px;
+        }
+        .artwork-info {
+            display: flex;
+            width: 280px;
+            height: 47px;
+            flex-direction: row;
+            margin: 0 16px 24px;
+            align-items: center;
+        }
+        .left-part {
+            width: 120px;
+            height: 47px;
+            flex-direction: column; /* 讓內容上下排列 */
+            margin-right: 40px;
+        }
+        .right-part {
+            width: 120px;
+            height: 47px;
+            flex-direction: column; /* 讓內容上下排列 */
+        }
+        .info-line1 {
+            width: 120;
+            height: 19;
+            font-family: Inter;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19.36px;
+            letter-spacing: 0%;
+            margin: 0 0 8px;
+            box-sizing: border-box;
+        }
+        .info-line2 {
+            width: 120;
+            height: 20;
+            font-family: Inter;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+    </style>
+
+    <body>
+        <div class="piccontainer">
+            <div class="picheader">
+                <div class="pictitle">作品全圖</div>
+                <div class="qrcode-container">
+                    <div class="button">
+                        <img src="C:\Users\USER\Desktop\藝信coding\project\img\qrcode.png" width="18" height="18" alt="QR Code">
+                    </div>                        
+                    <div class="button"> 
+                        <img src="C:\Users\USER\Desktop\藝信coding\project\img\upload.png" width="18" height="18" alt="Upload">                       
+                    </div>
+                </div>
+            </div>
+            <img src="C:\Users\USER\Desktop\藝信coding\project\img\Y.N_selfie.png" class="image-box" alt="img">
+            <div class="artwork-info">
+                <div class="left-part">
+                    <p class="info-line1">作品名稱</p>
+                    <p class="info-line2">抽象2023-028</p>
+                </div>
+                <div class="right-part">
+                    <p class="info-line1">作品編號</p>
+                    <p class="info-line2">TW-20241011-1</p>
+                </div>
+
+            </div>   
+        </div>
+    </body>
+</head>
+</html>

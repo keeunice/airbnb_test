@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>採證簡介</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+        }
+        .container {
+            width: 920px;
+            height: 479px;
+            display: flex;
+            flex-direction: column; /* 讓內部元素垂直排列 */
+            background: #f8f8f8;
+            padding: 24px;
+            border-radius: 16px;
+        }
+        .first-line {
+            display: flex;
+            width: 920px;
+            height: 47px;
+            gap: 40px;
+            justify-content: space-between;
+            line-height: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        .second-line {
+            display: flex;
+            width: 920px;
+            height: 47px;
+            gap: 40px;
+            justify-content: space-between;
+            line-height: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        .third-line {
+            display: flex;
+            width: 920px;
+            height: 63px;
+            gap: 40px;
+            justify-content: space-between;
+            line-height: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        .forth-line {
+            display: flex;
+            width: 920px;
+            height: 63px;
+            gap: 40px;
+            justify-content: space-between;
+            line-height: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        h3 {
+            width: 440px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+            text-align: left;
+            align-items: center;
+            margin: 0 0 8px 0;
+        }
+        p {
+            width: 440px;
+            height: 20px;
+            font-family: Inter;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;  
+            margin: 0;
+        }
+
+        .left-section {
+            width: 440px;
+            flex-direction: column; /* 讓內容上下排列 */
+        }
+
+        .right-section {
+            width: 440px;
+            flex-direction: column; /* 保持上下排列 */
+        }
+
+        .workinfo-title {  
+            width: 920px;
+            height: 19px;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 19.36px;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+        .workinfo-box {
+            width: 920px;
+            height: 108px;
+            border-radius: 8px;
+            border: 1px solid rgba(34, 34, 34, 1);
+            border-color: rgba(34, 34, 34, 1);
+            padding: 24px 12px 24px 12px;
+            box-sizing: border-box;
+            gap: 4px;
+            text-align: top;
+        }
+        .worinfo-content {
+            width: 896px;
+            height: 60px;
+            font-family: Inter;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+        }
+        .input-field {
+            width: 440px;
+            height: 36px;
+            padding: 8px 16px 8px 16px;
+            border: 1px solid rgba(34, 34, 34, 1);
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: rgba(249, 249, 249, 1);
+            margin-bottom: 16px; /* 標題與輸入框之間增加距離 */
+        }
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 128px;
+            height: 44px;
+            margin: 16px 24px 0 792px;
+            gap: 16px;
+        }
+        .cancel {
+            width: 56px;
+            height: 44px;
+            padding: 0 14px 0 14px;
+            border-radius: 6px;
+            border:1px solid rgba(27, 168, 185, 1);
+            cursor: pointer;
+            background-color: rgba(249, 249, 249, 1);  
+            color: rgba(27, 168, 185, 1); /* 直接設定按鈕文字顏色 */ 
+            font-size: 14px;
+            line-height: 17px;
+            white-space: nowrap; /* 確保文字不會自動換行 */
+        }
+        .confirm {
+            width: 56px;
+            height: 44px;
+            padding: 0 14px 0 14px;
+            border-radius: 6px;
+            border: 0px;
+            cursor: pointer;
+            background-color: rgba(27, 168, 185, 1);
+            color: rgba(255, 255, 255, 1); /* 直接設定按鈕文字顏色 */  
+            font-size: 14px;
+            line-height: 17px;
+            white-space: nowrap; /* 確保文字不會自動換行 */
+        }
+        /* 如果還想針對 span 設定 */
+        .cancel-text {
+            display: inline;
+            color: rgba(27, 168, 185, 1);
+            background-color: transparent; /* 避免影響按鈕 */
+        }
+
+        .confirm-text {            
+            display: inline;
+            color: rgba(255, 255, 255, 1);
+            background-color: transparent;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="first-line">
+            <div class="left-section">
+                <h3>藝術家</h3>
+                <p>霍剛 Ho Kan</p>
+            </div>
+            <div class="right-section">
+                <h3>尺寸</h3>
+                <p>200.0 × 100.0 cm</p>
+            </div>
+        </div>
+        <div class="second-line">
+            <div class="left-section">
+                <h3>創作年代</h3>
+                <p>2023</p>
+            </div>
+            <div class="right-section">
+                <h3>創作媒材</h3>
+                <p>油彩 畫布</p>
+            </div>           
+        </div>
+        <div class="third-line">
+            <div class="left-section">
+                <h3>收藏人</h3>
+                <input class="input-field" type="text" style="border-radius: 8px">
+            </div>
+            <div class="right-section">
+                <h3>收藏年份</h3>
+                <p>2024</p>
+            </div>
+        </div>
+        <div class="forth-line">
+            <div class="left-section">
+                <h3>委託單位</h3>
+                <input class="input-field" type="text" value="采泥藝術">
+            </div>
+            <div class="right-section">
+                <h3>影片網址</h3>
+                <input class="input-field" type="text" value="***">
+            </div>     
+        </div>
+        <div class="workinfo">
+            <div class="workinfo-title">
+                <h3>作品簡介</h3>
+            </div>
+            <div class="workinfo-box">
+                <div class="worinfo-content">
+                    《2023-028》是一幅充滿動態與情感張力的抽象畫作，運用錯綜複雜的筆觸與層疊的色彩展現時間與空間的交錯。濃烈的對比色與流動的線條營造出內在情緒的碰撞，既有瞬間爆發的激情，也帶有細膩的沉思。這件作品彷彿在探索無形的界限，讓觀者在自由詮釋中感受畫布內的能量與深度。
+                </div>                
+            </div>
+        </div>
+            <div class="buttons">
+                <button class="cancel">取消</button>
+                <button class="confirm">確定</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
