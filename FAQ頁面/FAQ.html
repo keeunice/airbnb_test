@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 讓主要內容區域置中 */
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+        .header {
+            display: flex;
+            justify-content: flex-start; /* 靠左對齊 */
+            align-items: center;
+            width: 100%;
+            height: 64px;
+            padding: 0 40px; /* 給左右一些內邊距 */
+            background-color: rgba(237, 239, 237, 0.8);
+            border-bottom: 1px solid rgba(170, 170, 170, 1);
+            position: fixed; /* 固定在頂部 */
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .header .logo {             
+            width: 74px;
+            height: 32px;
+            margin: auto 100px 11px 40px;
+            gap: 12px;
+        }
+        .header .nav { 
+            display: flex; 
+            gap: 80px; 
+        }
+        .header .nav a { 
+            height: 24px;
+            font-family: Roboto;
+            font-weight: 100;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 1px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            text-decoration: none; 
+            color: rgba(0, 0, 0, 1);
+        }
+        .namecontainer {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            width: 410px;
+            height: 126px;
+            margin: 108px 515px 0;
+
+
+        }
+        .namecontainertext {
+            width: 314px;
+            height: 90px;
+            top: 172px;
+            left: 563px;
+            font-family: Poppins;
+            font-weight: 700;
+            font-size: 72px;
+            line-height: 90px;
+            letter-spacing: 12%;
+            vertical-align: middle;
+            color: rgba(0, 0, 0, 1);
+        }
+        .search-box{
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+
+        }
+        .search-box input {
+            width: 948px;
+            height: 19px;
+            font-family: Noto Sans TC;
+            font-weight: 350;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            vertical-align: middle;
+            padding: 20.5px 24px 20.5px 16px; 
+            color:rgba(61, 79, 88, 1) ;
+            border: 1px solid rgba(114, 125, 140, 1);
+            border-radius: 8px;
+            margin-bottom: 60px;
+        }
+        .bigcontainer {
+            display: flex;
+            justify-content: center;
+            width: 1240px;
+            height: 1392px;
+            margin: 0px 100px 376px ;
+            gap:32px;            
+        }
+        .maincontainer { 
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 922px;
+            max-height: 1392px;
+            border-radius: 32px;
+            background: rgba(253, 253, 253, 1);
+            box-shadow: 1px 1px 8px 0px rgba(182, 190, 199, 0.08) inset;
+            box-shadow: -2px -2px 10px 0px rgba(54, 64, 83, 0.1) inset;
+            box-shadow: -4px -3px 12px 0px rgba(182, 190, 199, 0.12) inset;
+        }
+        .maincontainertitle{
+            width: 842px;
+            height: 60px;
+            font-family: Noto Sans TC;
+            font-weight: 700;
+            font-size: 40px;
+            line-height: 60px;
+            letter-spacing: 0%;
+            color: rgba(42, 51, 66, 1);
+            margin:48px 40px 24px ;
+            vertical-align: middle;
+
+        }
+        .content {
+            width: 842px;
+            height: 1212px;
+            justify-content: space-between;
+        }
+        .faq-list { 
+            list-style: none; 
+            padding: 0;
+             
+        }
+        .faq-item {
+            width: 780px;
+            height: 30px;
+            padding: 24px;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd; 
+            cursor: pointer;
+            margin-left: 40px; 
+        }
+        .content text {
+            width: 120px;
+            height: 32px;
+            font-family: Noto Sans TC;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 32px;
+            letter-spacing: 0%;
+            vertical-align: middle;
+            background: rgba(42, 51, 66, 1);
+            padding: 24px;
+
+        }       
+        .faq-item i {
+            width: 16px;
+            height: 16px;
+            color: rgba(114, 125, 140, 1);            
+            float: right; 
+
+        }
+        .faq-answer { 
+            display: none; 
+            padding: 10px; 
+            background: #f9f9f9; 
+            border-radius: 5px; 
+        }
+       
+        .sidebar {
+            width: 286px;
+            height: 424px;
+            gap: 20px;
+            left: 100px;
+
+        }
+        .sidebar ul { 
+            list-style: none; 
+            padding-left: 114px; 
+        }
+        .sidebar li.active { 
+            color: rgba(23, 182, 201, 1);  /* 點擊後字體變藍 */
+        }
+        .sidebar li {
+            width: 286px;
+            height: 28px; 
+            font-family: Noto Sans TC;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0%;
+            vertical-align: middle;
+            padding-left: 14px;
+            margin-bottom: 16px; 
+            cursor: pointer; 
+            position: relative;
+            color: rgba(42, 51, 66, 1); 
+        }
+        .sidebar li.active::before { 
+            content: ""; 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            height: 100%; 
+            width: 4px; 
+            background:rgba(23, 182, 201, 1);
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><img src="" alt=""></div>
+        <div class="nav">
+            <a href="#">專業團隊</a>
+            <a href="#">關於藝信</a>
+            <a href="#">相關文章</a>
+            <a href="#">畫家專訪</a>
+            <a href="#">聯絡我們</a>
+        </div>
+    </div>
+    <div class="namecontainer">
+        <div class="namecontainertext">常見問題</div>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="輸入關鍵字搜尋...">
+    </div>
+    <div class="bigcontainer">
+        <div class="sidebar">
+            <ul>
+                <li class="active">採證</li>
+                <li>驗證</li>
+                <li>藝術指紋</li>
+                <li>智慧證書</li>
+                <li>藝術履歷</li>
+                <li>帳戶相關</li>
+                <li>法律相關</li>
+                <li>付款與退款</li>
+                <li>隱私與安全</li>
+                <li>其他常見問題</li>
+            </ul>
+        </div>
+        <div class="maincontainer"> 
+            <div class="maincontainertitle">採證</div>       
+            <div class="content">
+                <ul class="faq-list">
+                    <li class="faq-item">1. 採證是什麼？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***************</div>
+                    </li>
+                    <li class="faq-item">2. 採證的目的與意義為何？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">3.一代與二代採證系統有何不同？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">4. 如何進行採證申請？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">5. 採證申請需要準備哪些資料？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">6. 採證流程包含哪些主要步驟？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">7. 採證服務的費用如何計算？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">8. 申請採證後多久可查詢結果？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">9. 採證結果將如何通知申請者？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">10. 採證過程中如何確保藝術品安全？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">11. 採證資料會保存多久？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">12. 若申請資料有誤，如何進行修改？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">13. 採證後若發現問題，是否可重新申請？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">14. 採證服務的合法性與權威性如何保障？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                    <li class="faq-item">15. 採證服務是否適用於所有類型的藝術品？<i class="fas fa-plus"></i>
+                        <div class="faq-answer">***********</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>    
+    <script>
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('i');
+                const isOpen = answer.style.display === 'block';
+                document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
+                document.querySelectorAll('.faq-item i').forEach(ic => ic.classList.replace('fa-minus', 'fa-plus'));
+                if (!isOpen) {
+                    answer.style.display = 'block';
+                    icon.classList.replace('fa-plus', 'fa-minus');
+                }
+            });
+        });
+
+        document.querySelectorAll('.sidebar li').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
