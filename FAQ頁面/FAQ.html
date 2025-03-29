@@ -30,10 +30,10 @@
             left: 0;
             z-index: 1000;
         }
-        .header .logo {             
+        .logo {             
             width: 74px;
             height: 32px;
-            margin: auto 100px 11px 40px;
+            margin: 11px 100px 11px 40px;
             gap: 12px;
         }
         .header .nav { 
@@ -52,15 +52,32 @@
             text-decoration: none; 
             color: rgba(0, 0, 0, 1);
         }
+        .login {
+            width: 17px;
+            height: 20px;
+            position: fixed;
+            right: 40px; /* 與視窗右側保持 40px */
+            top: 30px; 
+            transform: translateY(-50%);
+        }
+        .bar {
+            position: absolute;
+            width: 410px;
+            height: 24px;
+            bottom: 24px;
+            background: var(---2, rgba(78, 141, 191, 1));
+            z-index: 1; /* 設定比 .namecontainer 低，這樣它會在後面 */
+        }
+        
         .namecontainer {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center; 
             width: 410px;
             height: 126px;
             margin: 108px 515px 0;
-
-
+            z-index: 2; /* 確保 namecontainer 在 bar 之上 */
         }
         .namecontainertext {
             width: 314px;
@@ -74,6 +91,7 @@
             letter-spacing: 12%;
             vertical-align: middle;
             color: rgba(0, 0, 0, 1);
+            z-index: 3; /* 確保文字也在 bar 之上 */
         }
         .search-box{
             display: flex;
@@ -184,7 +202,6 @@
         }
         .sidebar ul { 
             list-style: none; 
-            padding-left: 114px; 
         }
         .sidebar li.active { 
             color: rgba(23, 182, 201, 1);  /* 點擊後字體變藍 */
@@ -214,12 +231,20 @@
             background:rgba(23, 182, 201, 1);
             
         }
+        .contactus {
+            width: 311px;
+            height: 428px;
+            top: 502px;
+        }
+        
+
 
     </style>
 </head>
 <body>
+    <div class="artwork-info">
     <div class="header">
-        <div class="logo"><img src="" alt=""></div>
+        <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\Icon Container.png" class="logo" alt="img">
         <div class="nav">
             <a href="#">專業團隊</a>
             <a href="#">關於藝信</a>
@@ -227,9 +252,12 @@
             <a href="#">畫家專訪</a>
             <a href="#">聯絡我們</a>
         </div>
+        <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\login.png" class="login" alt="img">
     </div>
     <div class="namecontainer">
         <div class="namecontainertext">常見問題</div>
+        <div class="bar"></div>
+        
     </div>
     <div class="search-box">
         <input type="text" placeholder="輸入關鍵字搜尋...">
@@ -248,6 +276,8 @@
                 <li>隱私與安全</li>
                 <li>其他常見問題</li>
             </ul>
+            <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\contactus.png" class="contactus" alt="img">
+        
         </div>
         <div class="maincontainer"> 
             <div class="maincontainertitle">採證</div>       
