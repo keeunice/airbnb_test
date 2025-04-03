@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常見問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+        }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #007bff;
+            padding: 10px;
+            color: white;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+        .top-bar img {
+            width: 16px;
+            height: 16px;
+        }
+        .menu {
+            position: relative;
+        }
+        .menu-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            color: black;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 10px;
+        }
+        .dropdown a {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+        .dropdown a:hover {
+            background: #f1f1f1;
+        }
+        .menu:hover .dropdown {
+            display: block;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-bar, .dropdown-select {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            background: white;
+            height: 36px;
+        }
+        .search-bar {
+            width: 60%;
+        }
+        .search-bar input {
+            border: none;
+            flex: 1;
+            padding: 5px;
+            outline: none;
+            height: 100%;
+            font-size: 14px;
+        }
+        .search-bar button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            height: 100%;
+        }
+        .dropdown-select {
+            width: 35%;
+        }
+        .dropdown-select select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+            height: 100%;
+            font-size: 14px;
+        }
+        .faq-list {
+            margin-top: 20px;
+        }
+        .faq-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            background: #f1f1f1;
+        }
+        .support {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background: #007bff;
+            color: white;
+            border-radius: 10px;
+        }
+        .support button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: white;
+            color: #007bff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <img src="logo.png" alt="Logo">
+        <div class="menu">
+            <div class="menu-icon">
+                <img src="icon.png" alt="Icon" style="margin-right: 10px;">
+                <img src="menu.png" alt="Menu">
+            </div>
+            <div class="dropdown">
+                <a href="#">專業團隊</a>
+                <a href="#">關於藝信</a>
+                <a href="#">聯絡我們</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">常見問題</div>
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" placeholder="輸入問題或字詞">
+                <button>搜尋</button>
+            </div>
+            <div class="dropdown-select">
+                <select>
+                    <option>採證</option>
+                    <option>驗證</option>
+                    <option>關於我們</option>
+                </select>
+            </div>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">1. 什麼是帳號？ <span>+</span></div>
+            <div class="faq-item">2. 我的密碼應該如何設置？ <span>+</span></div>
+            <div class="faq-item">3. 一般帳戶和會員帳戶有何不同？ <span>+</span></div>
+            <div class="faq-item">4. 如何重設密碼？ <span>+</span></div>
+            <div class="faq-item">5. 註冊帳號需要提供哪些資料？ <span>+</span></div>
+            <div class="faq-item">6. 註冊帳號是否需要收費？ <span>+</span></div>
+            <div class="faq-item">7. 忘記密碼怎麼辦？ <span>+</span></div>
+            <div class="faq-item">8. 帳號安全如何保證？ <span>+</span></div>
+            <div class="faq-item">9. 如何刪除帳號？ <span>+</span></div>
+            <div class="faq-item">10. 我能同時使用多個帳號嗎？ <span>+</span></div>
+        </div>
+        <div class="support">
+            <p>還沒找到答案嗎？</p>
+            <p>與我們聯繫，我們將樂意為您解答</p>
+            <button>聯絡我們</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常見問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .phone {
+            max-width: 393px;
+            height: 2184px;
+            margin: auto;
+            background: rgba(255, 255, 255, 1);
+        }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 393px;
+            height: 40px;
+            border-bottom-width: 1px;
+            gap: 24px;
+            color: white;
+            margin: auto;
+            background: rgba(255, 255, 255, 1);
+            border-bottom: 1px solid rgba(170, 170, 170, 1)
+        }
+        .topbarimg {
+            width: 14px;
+            height: 16px;
+            margin: 12px 16px 12px 0px ;
+        }
+        .topbarlogo {
+            width: 50px;
+            height: 20px;
+            margin: 10px 0px 10px 16px;
+
+        }
+        .menu {
+            position: relative;
+        }
+        .menu-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            color: black;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 10px;
+        }
+        .dropdown a {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+        }
+        .dropdown a:hover {
+            background: #f1f1f1;
+        }
+        .menu:hover .dropdown {
+            display: block;
+        }
+        .phonebar {
+            position: absolute;
+            width: 155px;
+            height: 10px;
+            margin: 30px 122px 0px 116px;
+            background: var(---2, rgba(78, 141, 191, 1));
+            z-index: 1; /* 設定比 .namecontainer 低，這樣它會在後面 */
+        }
+        
+        .namecontainerphone {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            width: 410px;
+            height: 126px;
+            right: 10px;
+            z-index: 2; /* 確保 namecontainer 在 bar 之上 */
+        }
+        .namecontainertextphone {
+            width: 140px;
+            height: 36px;
+            margin: 60px 131px 64px ;
+            font-family: Poppins;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 36px;
+            letter-spacing: 1px;
+            vertical-align: middle;
+            color: rgba(0, 0, 0, 1);
+            z-index: 3; /* 確保文字也在 bar 之上 */
+        }
+        .menu-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 361px;
+            height: 42px;
+            padding: 0px 16px;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .menu-box {
+            position: relative;
+            width: 210.59px;
+        }
+        .menu-box input {
+            width: 195px;
+            height: 24px;
+            font-size: 14px;
+            padding: 8px 0px 8px 16px; /* 預留右側空間給 icon */
+            border: 1px solid rgba(114, 125, 140, 1);
+            border-radius: 8px;
+            outline: none;
+        }
+        .menuicon {
+            position: absolute;
+            right: 11px; /* 控制箭頭與框的距離 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            pointer-events: none; /* 確保 icon 不會影響選擇框點擊 */
+        }        
+        .dropdown-select {
+            position: relative;
+            width: 142.41px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+        }
+        .dropdown-select select {
+            appearance: none; /* 隱藏原生箭頭 */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 100%;
+            height: 100%;
+            padding: 9px 35px 9px 17px;
+            border: 1px solid rgba(114, 125, 140, 1);
+            border-radius: 8px;
+            
+            /* 設定字體樣式 */
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            color:rgba(42, 51, 66, 1); /* 可自行修改文字顏色 */
+        }
+        .dropdownicon {
+            position: absolute;
+            right: 12px; /* 控制箭頭與框的距離 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            pointer-events: none; /* 確保 icon 不會影響選擇框點擊 */
+        }
+        select::-ms-expand {
+            display: none;
+        }
+
+        /* .bigcontainerphone {
+            margin: auto;
+            width: 393px;
+            height: 1236px;
+            gap: 24px;
+            border-radius: 24px;
+            background: rgba(253, 253, 253, 1);
+            box-shadow: 1px 1px 8px 0px rgba(182, 190, 199, 0.08) inset;
+            box-shadow: -2px -2px 10px 0px rgba(54, 64, 83, 0.1) inset;
+            box-shadow: -4px -3px 12px 0px rgba(182, 190, 199, 0.12) inset;
+        } */
+        .maincontainerphone { 
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 393px;
+            height: 1076px;
+            margin: auto;
+            border-radius: 24px;
+            background: rgba(253, 253, 253, 1);
+            box-shadow: 1px 1px 8px 0px rgba(182, 190, 199, 0.08) inset;
+            box-shadow: -2px -2px 10px 0px rgba(54, 64, 83, 0.1) inset;
+            box-shadow: -4px -3px 12px 0px rgba(182, 190, 199, 0.12) inset;
+        }
+        .maincontainertitlephone {
+            width: 361px;
+            height: 48px;
+            font-family: Noto Sans TC;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 48px;
+            letter-spacing: 0%;
+            color: rgba(42, 51, 66, 1);
+            margin:40px 16px 0px ;
+            vertical-align: middle;
+
+        }
+        .contentphone {
+            width: 361px;
+            height: auto;
+            justify-content: space-between;
+        }
+
+        .faq-listphone {
+            padding: 0px 16px;
+        }
+        .faq-itemphone {
+            width: 361px;
+            height: 64px;
+            border-bottom: 1px solid #ccc;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        
+        }
+        .faq-itemphone:hover {
+            background: #f1f1f1;
+        }
+        .faq-itemphone i {
+            width: 16px;
+            height: 18px;
+            color: rgba(114, 125, 140, 1);            
+            float: right; 
+
+        }
+        .faq-answerphone { 
+            display: none; 
+            padding: 10px; 
+            background: #f9f9f9; 
+            border-radius: 5px; 
+        }
+        .supportimg {
+            display: flex;
+            width: 361px;
+            height: 400px;
+            margin:12px 16px 0px ;
+            text-align: center;
+            justify-content: center;            
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\Icon Container.png" class="topbarlogo" alt="Logo">
+        <div class="menu">
+            <div class="menu-icon">
+                <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\login.png" class="topbarimg" alt="img" style="margin-right: 12px;">
+                <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\ic_round-menu.png" class="topbarimg" alt="img">
+            </div>
+            <div class="dropdown">
+                <a href="#">專業團隊</a>
+                <a href="#">關於藝信</a>
+                <a href="#">聯絡我們</a>
+            </div>
+        </div>
+    </div>
+    <div class="phone">
+        <div class="namecontainerphone">
+            <div class="namecontainertextphone">常見問題</div>
+            <div class="phonebar"></div>
+        </div>       
+        <div class="menu-container">
+            <div class="menu-box">
+                <input type="text" placeholder="輸入關鍵字搜尋">
+                <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\search.png" alt="搜尋" class="menuicon">
+            </div>
+            <div class="dropdown-select">
+                <select>
+                    <option>採證</option>
+                    <option>驗證</option>
+                    <option>藝術指紋</option>
+                    <option>智慧證書</option>
+                    <option>藝術履歷</option>
+                    <option>帳戶相關</option>
+                    <option>法律相關</option>
+                    <option>付款與退款</option>
+                    <option>隱私與安全</option>
+                    <option>其他常見問題</option>
+                    
+                </select>
+                <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\arrow.png" class="dropdownicon" alt="img">
+            </div>
+        </div>
+        <div class="maincontainerphone">
+            <div class="maincontainertitlephone">採證</div>
+            <div class="contentphone">
+                <ul class="faq-listphone">
+                    <li class="faq-itemphone">1. 採證是什麼？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***************</div>
+                    </li>
+                    <li class="faq-itemphone">2. 採證的目的與意義為何？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">3.一代與二代採證系統有何不同？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">4. 如何進行採證申請？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">5. 採證申請需要準備哪些資料？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">6. 採證流程包含哪些主要步驟？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">7. 採證服務的費用如何計算？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">8. 申請採證後多久可查詢結果？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">9. 採證結果將如何通知申請者？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">10. 採證過程中如何確保藝術品安全？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">11. 採證資料會保存多久？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">12. 若申請資料有誤，如何進行修改？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">13. 採證後若發現問題，是否可重新申請？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">14. 採證服務的合法性與權威性如何保障？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                    <li class="faq-itemphone">15. 採證服務是否適用於所有類型的藝術品？<i class="fas fa-plus"></i>
+                        <div class="faq-answerphone">***********</div>
+                    </li>
+                </ul>
+            </div>            
+        </div>
+        <script>
+            document.querySelectorAll('.faq-itemphone').forEach(item => {
+                item.addEventListener('click', () => {
+                    const answer = item.querySelector('.faq-answerphone');
+                    const icon = item.querySelector('i');
+                    const isOpen = answer.style.display === 'block';
+                    document.querySelectorAll('.faq-answerphone').forEach(ans => ans.style.display = 'none');
+                    document.querySelectorAll('.faq-itemphone i').forEach(ic => ic.classList.replace('fa-minus', 'fa-plus'));
+                    if (!isOpen) {
+                        answer.style.display = 'block';
+                        icon.classList.replace('fa-plus', 'fa-minus');
+                    }
+                });
+            });
+    
+        </script>
+        <img src="C:\Users\USER\Desktop\藝信coding\FAQ頁面\contactus.png" class="supportimg" alt="img">
+    </div>
+</body>
+</html>
